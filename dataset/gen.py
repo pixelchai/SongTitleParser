@@ -3,6 +3,29 @@ from pathlib import Path
 import mutagen
 import requests
 import os
+from qtpy import QtWidgets, QtGui
+import json
+
+class ResultWidget(QtWidgets.QWidget):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.layout = QtWidgets.QHBoxLayout()
+        self.thumbnail = QtWidgets.QLabel()
+        self.layout.addWidget(self.thumbnail, 0)
+        self.layout.addLayout(self.textQVBoxLayout, 1)
+        self.setLayout(self.layout)
+
+    def _set_thumbnail(self, image_path):
+        self.thumbnail.setPixmap(QtGui.QPixmap(image_path))
+
+class ResultsSelector(QtWidgets.QMainWindow):
+    def __init__(self, items):
+        super().__init__()
+        self.setWindowTitle("Select results...")
+        self.setFixedSize(300, 700)
+
+        self.list_widget = QtWidgets.QListWidget(self)
+        self.setCentralWidget(self.list_widget)
 
 def youtube_api(endpoint, params):
     payload = {
@@ -30,7 +53,7 @@ def youtube_search(query, **kwargs):
         "q": query
     }
     params.update(kwargs)
-    a = youtube_api("https://www.googleapis.com/youtube/v3/search", params)
+    return youtube_api("https://www.googleapis.com/youtube/v3/search", params)
 
 try:
     songs_path = sys.argv[1]
@@ -45,3 +68,8 @@ try:
 
 except IndexError:
     print("Please provide a songs path")
+
+# app = QtWidgets.QApplication(sys.argv)
+# window = ResultsSelector()
+# window.show()
+# app.exec()
