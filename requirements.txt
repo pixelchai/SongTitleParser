@@ -1,0 +1,4 @@
+mutagen
+requests
+QtPy
+PyQt5
