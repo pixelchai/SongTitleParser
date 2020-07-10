@@ -1,4 +1,12 @@
-start: WORD "," WORD "!"
+start: standard
+
+standard: artist_name "-" song_title bracketeds
+NAME: ("a".."z" | "A".."Z" | "0".."9" | " ")+
+artist_name: NAME
+song_title: NAME
+bracketeds: bracketed+
+bracketed: "(" bracketed_inner ")"
+!bracketed_inner: "HQ"
 
 %import common.WORD   // imports from terminal library
 %ignore " "           // Disregard spaces in text
