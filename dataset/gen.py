@@ -51,7 +51,7 @@ class ResultsSelectorWidget(QtWidgets.QWidget):
 
         self.setLayout(self.central_layout)
 
-    def load_response(self, response):
+    def load_response(self, response, load_image=False):
         self.list_widget.clear()
         for item in response.get("items", []):
             try:
@@ -72,7 +72,7 @@ class ResultsSelectorWidget(QtWidgets.QWidget):
 
                 # load image
                 thumbnail_url = item_snippet.get("thumbnails", {}).get("default", {}).get("url", None)
-                if thumbnail_url is not None:
+                if load_image and thumbnail_url is not None:
                     pixmap = QtGui.QPixmap()
                     pixmap.loadFromData(requests.get(thumbnail_url).content)
                     list_item = QtWidgets.QListWidgetItem(QtGui.QIcon(pixmap), item_title, self.list_widget)
@@ -105,6 +105,10 @@ class SelectorDialog(QtWidgets.QMainWindow):
         self.central_widget = QtWidgets.QWidget()
         self.central_layout = QtWidgets.QVBoxLayout()
         self.central_widget.setLayout(self.central_layout)
+
+        self.check_load_thumbnails = QtWidgets.QCheckBox("Load thumbnails")
+        self.check_load_thumbnails.setChecked(False)
+        self.central_layout.addWidget(self.check_load_thumbnails)
 
         self.label_top = QtWidgets.QLabel("Loading...")
         self.label_top.setFont(QtGui.QFont("Arial", 12))
@@ -174,7 +178,7 @@ class SelectorDialog(QtWidgets.QMainWindow):
             data[key] = song
 
         with open("out.json", "w") as f:
-            json.dump(data, f)
+            json.dump(data, f, indent=4)
 
         print("Saved data!")
 
@@ -197,7 +201,7 @@ class SelectorDialog(QtWidgets.QMainWindow):
 
             self.setWindowTitle("Selecting... " + text_progress)
             self.label_top.setText("Select the results which correspond to: <br>{}".format(query))
-            self.results_selector.load_response(response)
+            self.results_selector.load_response(response, self.check_load_thumbnails.isChecked())
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
