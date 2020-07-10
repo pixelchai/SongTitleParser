@@ -53,6 +53,7 @@ class ResultsSelectorWidget(QtWidgets.QWidget):
 
     def load_response(self, response, load_image=False):
         self.list_widget.clear()
+        self.items.clear()
         for item in response.get("items", []):
             try:
                 list_item = None
