@@ -3,58 +3,46 @@ from pathlib import Path
 import mutagen
 import requests
 import os
-from qtpy import QtWidgets, QtGui
+from qtpy import QtWidgets, QtGui, QtCore
 import json
-
-class ResultWidget(QtWidgets.QWidget):
-    def __init__(self, item):
-        super().__init__()
-        self._item_data = {}
-
-        self.layout = QtWidgets.QHBoxLayout()
-        self.thumbnail = QtWidgets.QLabel()
-        self.title = QtWidgets.QLabel()
-        self.layout.addWidget(self.thumbnail, 0)
-        self.layout.addWidget(self.title, 1)
-        self.setLayout(self.layout)
-
-    def _load_item(self, item):
-        item_id = item.get("id")
-        item_snippet = item.get("snippet")
-
-        # set id
-        if item_id.get("kind") != "youtube#video":
-            raise ValueError
-        self._item_data["id"] = item_id.get("videoId")
-
-        # load title
-        item_title = item_snippet.get("title")
-        self._item_data["title"] = item_title
-        self.title.setText(item_title)
-
-        # load image
-        thumbnail_url = item_snippet.get("thumbnails", {}).get("default", {}).get("url", None)
-        if thumbnail_url is not None:
-            pixmap = QtGui.QPixmap()
-            pixmap.loadFromData(requests.get(thumbnail_url).content)
-            self.thumbnail.setPixmap(pixmap)
+import html
 
 class ResultsSelector(QtWidgets.QMainWindow):
     def __init__(self, items):
         super().__init__()
         self.setWindowTitle("Select results...")
-        self.setFixedSize(300, 700)
+        self.setFixedSize(510, 700)
+        self.items = []
 
         self.list_widget = QtWidgets.QListWidget(self)
-        for item in items:
+        self.list_widget.setIconSize(QtCore.QSize(256, 256))
+        self.list_widget.setWordWrap(True)
+        for item in items.get("items", []):
             try:
-                result_widget = ResultWidget(item)
+                list_item = None
 
-                list_item = QtWidgets.QListWidgetItem(self.list_widget)
-                list_item.setSizeHint(result_widget.sizeHint())
+                item_data = {}
+                item_id = item.get("id")
+                item_snippet = item.get("snippet")
 
-                self.list_widget.addItem(list_item)
-                self.list_widget.setItemWidget(list_item, result_widget)
+                # set id
+                if item_id.get("kind") != "youtube#video":
+                    raise ValueError
+                item_data["id"] = item_id.get("videoId")
+
+                # load title
+                item_title = html.unescape(item_snippet.get("title", ""))
+                item_data["title"] = item_title
+
+                # load image
+                thumbnail_url = item_snippet.get("thumbnails", {}).get("default", {}).get("url", None)
+                if thumbnail_url is not None:
+                    pixmap = QtGui.QPixmap()
+                    pixmap.loadFromData(requests.get(thumbnail_url).content)
+                    list_item = QtWidgets.QListWidgetItem(QtGui.QIcon(pixmap), item_title, self.list_widget)
+                    self.list_widget.addItem(list_item)
+
+                self.items.append(item_data)
             except ValueError:
                 pass
 
