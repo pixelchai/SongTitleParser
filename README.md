@@ -14,3 +14,18 @@ The dataset is created from tagged song files (which already have correct artist
 
 ### Screenshot:
 ![](res/gen_screenshot.png)
+
+### Help with the Dataset
+To use the program, you will need a [YouTube API key](https://developers.google.com/youtube/v3/) and music with correct Title and Artist metadata tags. Mp3 files should definitely work, other formats may also work but haven't been tested.
+
+```
+git clone https://github.com/pixelzerg/SongTitleParser.git
+cd dataset
+pip3 install -r requirements.txt
+export YOUTUBE_API_KEY="<youtube api key here>"
+python3 gen.py "/path/to/music/folder/"
+```
+
+Data will be outputed to `out.json`. The program can be closed in the middle of going through a folder and will resume from where you left off.
+
+NB: the music in the folder provided will be loaded recursively.
