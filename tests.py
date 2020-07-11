@@ -34,6 +34,10 @@ class TestParser(unittest.TestCase):
                          "The Band/PixelZerg", "Nice Song")
         self.assertParse("The Band feat. PixelZerg -- Nice Song (Live at Glastonbury, 2019) 『OFFICIAL VIDEO』",
                          "The Band/PixelZerg", "Nice Song")
+        self.assertParse("'Only One King' (feat. Jung Youth) _ Produced by Tommee Profitt",
+                         "Jung Youth", "Only One King")
+        self.assertParse("[cover]優しい人_yama",
+                         "優しい人", "yama")  # special underscore, meta_unam prefix
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

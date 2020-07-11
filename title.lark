@@ -1,6 +1,6 @@
 %ignore /\s/
 // common
-_NAME_LETTER: /[\s\w!?。]/
+_NAME_LETTER: /[\s!?。]|[^\W_]/  // match any character in the first class OR (\w but not _ [special underscore])
 NAME: (_NAME_LETTER | ".")+
 NAME_NO_DOT: _NAME_LETTER+
 NAME_COMMAS: (_NAME_LETTER | "." | _COMMA)+
@@ -8,7 +8,7 @@ _LBRAC: "(" | "[" | "『" | "「" | "（"
 _RBRAC: ")" | "]" | "』" | "」" | "）"
 _QUOTE: "\"" | "'"
 _COMMA: ","
-_DASH: "-"+
+_DASH: ("-" | "_" | "_")+
 _PLUS: "+"
 _SLASH: "/" | "／"
 _NAME_SEP: _PLUS | _SLASH
@@ -24,13 +24,14 @@ DATE: /\d{4}/ // year
 relaxed: _QUOTE song_title_unam _QUOTE (meta_official | meta_mv)? "by" artist_name
 
 standard: artist_name _SEP song_title_unam (_LBRAC _meta_unam _RBRAC)+
+          | (_LBRAC _meta_unam _RBRAC)+ artist_name _SEP song_title
           | song_title (_SEP | _REV_SEP) artist_name_ft (_LBRAC meta _RBRAC)*
+          | song_title artist_ft ((_LBRAC meta _RBRAC)* | _SEP_COMMA meta)?
           | artist_name _SEP song_title (_LBRAC meta _RBRAC)*
           | (_LBRAC meta _RBRAC)+ artist_name _SEP song_title
           | artist_name _SEP song_title _SEP_COMMA meta
           | artist_name _LBRAC song_title _RBRAC (_SEP_COMMA? meta)
           | song_title _REV_SEP artist_name
-          | song_title artist_ft
           | song_title
 
 _feat: ("ft" | "feat" | "featuring" ) ("." | ":")?
@@ -42,6 +43,7 @@ artist_name: artist_name_ft
 
 _artist_name_core: NAME
                    | _name_and_translated
+artist_name_core: _artist_name_core
 
 _song_title_unam: NAME | _QUOTE NAME_COMMAS _QUOTE
 song_title_unam: _song_title_unam
@@ -61,12 +63,19 @@ _name_and_translated: _LBRAC NAME_COMMAS _RBRAC NAME
 
 // (reasonably) unambigious meta
 _meta_unam: meta_mv
+            | meta_cover
+            | meta_prod
             | meta_official
             | meta_youtube
 
+meta_prod: _meta_prod_relaxed
+_meta_prod_relaxed: "produced by " _artist_name_core
+
+meta_cover: "cover" | _utattemita
 meta_mv: "music video" | "MV" | "AMV" | "Animation"
 meta_official: "official" (meta_mv | "video" | "audio")
 !meta_youtube: "HQ" | "HD"
+
 meta_live: ("live" ("in"| "at"))? _live_info
            | _live_info _SEP_COMMA? "live"
            | "live"

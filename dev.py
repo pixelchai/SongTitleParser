@@ -6,9 +6,9 @@ with open("dataset/out.json", "r") as f:
     dataset = json.load(f)
 
 results = [
-    # "'Only One King' (feat. Jung Youth) _ Produced by Tommee Profitt",
-    "'Only One King' (feat. Jung Youth)",
-    "Pixel - The Cool Song (Official Audio)"
+    "[cover]優しい人_yama",
+    # "'Only One King' (feat. Jung Youth)",
+    # "Pixel - The Cool Song (Official Audio)"
 ]
 
 if False:
