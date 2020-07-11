@@ -24,7 +24,7 @@ DATE: /\d{4}/ // year
 relaxed: _QUOTE song_title_unam _QUOTE (meta_official | meta_mv)? "by" artist_name
 
 standard: artist_name _SEP song_title_unam (_LBRAC _meta_unam _RBRAC)+
-          | song_title _SEP artist_name_ft (_LBRAC meta _RBRAC)*
+          | song_title (_SEP | _REV_SEP) artist_name_ft (_LBRAC meta _RBRAC)*
           | artist_name _SEP song_title (_LBRAC meta _RBRAC)*
           | (_LBRAC meta _RBRAC)+ artist_name _SEP song_title
           | artist_name _SEP song_title _SEP_COMMA meta

@@ -25,6 +25,10 @@ class TestParser(unittest.TestCase):
                          "ずっと真夜中でいいのに。", "ハゼ馳せる果てるまで")
         self.assertParse('"Humanoid" Music Video by Zutto Mayonaka de Ii no ni.',
                          "Zutto Mayonaka de Ii no ni.", "Humanoid")
+        self.assertParse("Nice Song -- The Band feat. PixelZerg (Live at Glastonbury, 2019) 『OFFICIAL VIDEO』",
+                         "The Band/PixelZerg", "Nice Song")
+        self.assertParse("Nice Song/The Band feat. PixelZerg (Live at Glastonbury, 2019) 『OFFICIAL VIDEO』",
+                         "The Band/PixelZerg", "Nice Song")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -23,7 +23,7 @@ for result in results[:100]:
     tree = parser.parse(result)
     print(tree.pretty("\t"))
     print(interpret_tree(tree))
-    print(tree)
+    # print(tree)
 
 
 # tree = parser.parse("ヨルシカ - 思想犯（OFFICIAL VIDEO）")
