@@ -6,7 +6,7 @@ with open("dataset/out.json", "r") as f:
     dataset = json.load(f)
 
 results = [
-    'The Killers - Mr Brightside ft. PixelZerg (Live at Glastonbury, UK 2019) 『OFFICIAL VIDEO』',
+    'Nice Song -- The Band feat. PixelZerg (Live at Glastonbury, 2019) 『OFFICIAL VIDEO』',
 ]
 
 if False:
@@ -23,6 +23,7 @@ for result in results[:100]:
     tree = parser.parse(result)
     print(tree.pretty("\t"))
     print(interpret_tree(tree))
+    print(tree)
 
 
 # tree = parser.parse("ヨルシカ - 思想犯（OFFICIAL VIDEO）")

@@ -1,7 +1,8 @@
 %ignore /\s/
 // common
-_NAME_LETTER: /[ \w!?。\.]/
-NAME: _NAME_LETTER+
+_NAME_LETTER: /[\s\w!?。]/
+NAME: (_NAME_LETTER | ".")+
+NAME_NO_DOT: _NAME_LETTER+
 NAME_COMMAS: (_NAME_LETTER | _COMMA)+
 _LBRAC: "(" | "[" | "『" | "「" | "（"
 _RBRAC: ")" | "]" | "』" | "」" | "）"
@@ -23,22 +24,21 @@ DATE: /\d{4}/ // year
 relaxed: _QUOTE song_title_unam _QUOTE (meta_official | meta_mv)? "by" artist_name
 
 standard: artist_name _SEP song_title_unam (_LBRAC _meta_unam _RBRAC)+
-          | artist_name _SEP song_title_pre_ft artist_feat (_LBRAC meta _RBRAC)*
+          | song_title _SEP artist_name_ft (_LBRAC meta _RBRAC)*
           | artist_name _SEP song_title (_LBRAC meta _RBRAC)*
           | (_LBRAC meta _RBRAC)+ artist_name _SEP song_title
           | artist_name _SEP song_title _SEP_COMMA meta
           | artist_name _LBRAC song_title _RBRAC (_SEP_COMMA? meta)
           | song_title _REV_SEP artist_name
 
-_feat: ("ft" | "featuring" | "feat") ("." | ":")?
-artist_feat: (_feat)? _artist_name_core (_NAME_SEP NAME)*
-artist_name: _artist_name_core artist_feat
+_feat: ("ft" | "feat" | "featuring" ) ("." | ":")?
+artist_name_ft: /[\s\w!?]+(?=(ft|featuring|feat)[.:]?)/ _feat NAME_NO_DOT (_NAME_SEP NAME)*
+artist_name: artist_name_ft
              | _artist_name_core
 
 _artist_name_core: NAME
                    | _name_and_translated
 
-song_title_pre_ft: /[ \w!?]+(?=ft|featuring|feat)/
 song_title_unam: NAME
 song_title: NAME
             | _name_and_translated
