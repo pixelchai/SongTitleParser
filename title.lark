@@ -1,10 +1,11 @@
 %ignore /\s/
 // common
-_NAME_LETTER: /[ \w!?。]/
+_NAME_LETTER: /[ \w!?。\.]/
 NAME: _NAME_LETTER+
 NAME_COMMAS: (_NAME_LETTER | _COMMA)+
 _LBRAC: "(" | "[" | "『" | "「" | "（"
 _RBRAC: ")" | "]" | "』" | "」" | "）"
+_QUOTE: "\""
 _COMMA: ","
 _DASH: "-"+
 _PLUS: "+"
@@ -17,6 +18,9 @@ _SEP_COMMA: _SEP  | _COMMA
 DATE: /\d{4}/ // year
 
 ?start: standard
+        | relaxed
+
+relaxed: _QUOTE song_title_unam _QUOTE (meta_official | meta_mv)? "by" artist_name
 
 standard: artist_name _SEP song_title_unam (_LBRAC _meta_unam _RBRAC)+
           | artist_name _SEP song_title (_LBRAC meta _RBRAC)*
@@ -25,8 +29,12 @@ standard: artist_name _SEP song_title_unam (_LBRAC _meta_unam _RBRAC)+
           | artist_name _LBRAC song_title _RBRAC (_SEP_COMMA? meta)
           | song_title _REV_SEP artist_name
 
-artist_name: NAME (_NAME_SEP NAME)*
-             | _name_and_translated
+_feat: ("ft" | "featuring" | "feat")
+artist_name: _artist_name_core (_feat)? (_NAME_SEP _artist_name_core)+
+             | _artist_name_core
+
+_artist_name_core: NAME
+                   | _name_and_translated
 
 song_title_unam: NAME
 song_title: NAME
@@ -34,7 +42,9 @@ song_title: NAME
 
 // translation in brackets
 _name_and_translated: _LBRAC NAME_COMMAS _RBRAC NAME
+                      | _QUOTE NAME _QUOTE _LBRAC NAME_COMMAS _RBRAC
                       | NAME _LBRAC NAME_COMMAS _RBRAC
+                      | NAME _QUOTE NAME_COMMAS _QUOTE
 
 // todo: make these all _meta_whatever later
 ?meta: _meta_unam

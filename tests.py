@@ -6,7 +6,6 @@ class TestParser(unittest.TestCase):
         self.assertTupleEqual(interpret_tree(parser.parse(raw_title)),
                               (artist, title))
 
-
     def test_examples(self):
         self.assertParse("Pixel - The Cool Song (Official Audio)",
                          "Pixel", "The Cool Song")
@@ -24,6 +23,8 @@ class TestParser(unittest.TestCase):
                          "ヨルシカ", "思想犯")
         self.assertParse("ずっと真夜中でいいのに。『ハゼ馳せる果てるまで』MV",
                          "ずっと真夜中でいいのに。", "ハゼ馳せる果てるまで")
+        self.assertParse('"Humanoid" Music Video by Zutto Mayonaka de Ii no ni.',
+                         "Humanoid", "Zutto Mayonaka de Ii no ni.")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
