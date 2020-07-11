@@ -1,10 +1,6 @@
 import json
 import random
-from lark import Lark
-import re
-from pprint import pprint
-
-parser = Lark.open("title.lark", parser="earley",  g_regex_flags=re.I)
+from main import parser
 
 with open("dataset/out.json", "r") as f:
     dataset = json.load(f)
@@ -15,8 +11,8 @@ results = [
     "The Killers - Mr Brightside (Live at Glastonbury, 2019, UK)",
     "Florence + The Machine - Times Like These - Live At Glastonbury 2015",
     "[Eng/Indo/Lyric] Aimyon - 『She Used to Be Alive, Right?』 Ikite Itanda Yo Na 生きていたんだよな",
-    "Pixel - WowSong (woowh song) (EASY LYRICS)",
     "[EN/ESP] Aimyon - 『She Used to Be Alive, Right?』 Ikite Itanda Yo Na 生きていたんだよな",
+    "Pixel - WowSong (woowh song) (EASY LYRICS)",
     "猛独が襲う／初音ミク",
     "ヨルシカ - 思想犯（OFFICIAL VIDEO）",
     "ずっと真夜中でいいのに。『ハゼ馳せる果てるまで』MV",

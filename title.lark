@@ -19,18 +19,22 @@ DATE: /\d{4}/ // year
 ?start: standard
 
 standard: artist_name _SEP song_title_unam (_LBRAC _meta_unam _RBRAC)+
-          |artist_name _SEP song_title (_LBRAC meta _RBRAC)+
+          | artist_name _SEP song_title (_LBRAC meta _RBRAC)*
           | (_LBRAC meta _RBRAC)+ artist_name _SEP song_title
           | artist_name _SEP song_title _SEP_COMMA meta
           | artist_name _LBRAC song_title _RBRAC (_SEP_COMMA? meta)
           | song_title _REV_SEP artist_name
+
 artist_name: NAME (_NAME_SEP NAME)*
+             | _name_and_translated
 
 song_title_unam: NAME
 song_title: NAME
-            // translation in brackets
-            | _LBRAC NAME_COMMAS _RBRAC NAME
-            | NAME _LBRAC NAME_COMMAS _RBRAC
+            | _name_and_translated
+
+// translation in brackets
+_name_and_translated: _LBRAC NAME_COMMAS _RBRAC NAME
+                      | NAME _LBRAC NAME_COMMAS _RBRAC
 
 // todo: make these all _meta_whatever later
 ?meta: _meta_unam
