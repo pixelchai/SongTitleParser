@@ -6,7 +6,9 @@ with open("dataset/out.json", "r") as f:
     dataset = json.load(f)
 
 results = [
-    "A Super Nice Japanese Song — A Song i Sent For You [君へ送る唄]  Lyrics English",
+"ずっと真夜中でいいのに。『ハゼ馳せる果てるまで』MV",
+    "Beverly _ 尊い MUSIC VIDEO "
+    # "Beverly _ 尊い MUSIC VIDEO 【作詞・作曲  - 岡崎体育】(3rd Album「INFINITY」収録)"
 ]
 
 if False:

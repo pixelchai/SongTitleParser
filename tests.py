@@ -45,5 +45,7 @@ class TestParser(unittest.TestCase):
         # especially if 'name' and 'translation' are from different alphabets
         self.assertParse("Anata no Yoru ga Akeru Made [あなたの夜が明けるまで] Lyrics",
                          None, "Anata no Yoru ga Akeru Made")
+        self.assertParse("Word", None, "Word") # word on its own => song title
+        self.assertParse("ayiko - Teichopsia (ft. Shoko)", "ayiko", "Teichopsia")
 if __name__ == '__main__':
     unittest.main(verbosity=2)
