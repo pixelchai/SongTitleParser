@@ -2,6 +2,8 @@
 // common
 _NAME_LETTER: /[\s!?。]|[^\W_]/  // match any character in the first class OR (\w but not _ [special underscore])
 NAME: (_NAME_LETTER | ".")+
+_NAME_LETTER_LATIN: /[\s!?A-Za-z0-9]/
+NAME_LATIN: (_NAME_LETTER_LATIN | ".")+
 NAME_NO_DOT: _NAME_LETTER+
 NAME_COMMAS: (_NAME_LETTER | "." | _COMMA)+
 _LBRAC: "(" | "[" | "『" | "「" | "（" | "【"
@@ -18,8 +20,8 @@ _SEP_COMMA: _SEP  | _COMMA
 
 DATE: /\d{4}/ // year
 
-?start: standard
-        | relaxed
+?start: relaxed
+        | special_case_prefix? standard
 
 relaxed: _QUOTE song_title_unam _QUOTE (meta_official | meta_mv)? "by" artist_name
 
@@ -30,10 +32,13 @@ standard: artist_name _SEP song_title_unam (_LBRAC _meta_unam _RBRAC)+
           | artist_name _SEP song_title (_LBRAC meta _RBRAC)*
           | (_LBRAC meta _RBRAC)+ artist_name _SEP song_title
           | artist_name _SEP song_title _SEP_COMMA meta
+          | song_title ((_LBRAC meta _RBRAC)* | meta)
           | artist_name _LBRAC song_title _RBRAC (_SEP_COMMA? meta)
           | (_LBRAC meta _RBRAC)* song_title (_LBRAC artist_name _RBRAC)
           | (_LBRAC meta _RBRAC)* song_title _REV_SEP artist_name
           | song_title
+
+special_case_prefix: "a super nice japanese song" _SEP
 
 _feat: ("ft" | "feat" | "featuring" ) ("." | ":")?
 _artist_ft: _feat NAME_NO_DOT (_NAME_SEP NAME)*
@@ -48,15 +53,22 @@ artist_name_core: _artist_name_core
 
 _song_title_unam: NAME | _QUOTE NAME_COMMAS _QUOTE
 song_title_unam: _song_title_unam
+_song_title_unam_latin: NAME_LATIN | _QUOTE NAME_COMMAS _QUOTE
+song_title_unam_latin: _song_title_unam_latin
+
 song_title: _name_and_translated
             | (NAME | _QUOTE NAME_COMMAS _QUOTE)
 
 // translation in brackets
 _name_and_translated: _LBRAC NAME_COMMAS _RBRAC NAME_COMMAS
-                      | song_title_unam _LBRAC NAME_COMMAS _RBRAC
-                      | NAME _LBRAC NAME_COMMAS _RBRAC
-                      | NAME _QUOTE NAME_COMMAS _QUOTE
-                      | NAME_COMMAS _LBRAC NAME_COMMAS _RBRAC
+                      | song_title_unam_latin _LBRAC NAME_COMMAS _RBRAC
+                      | song_title_unam _LBRAC NAME_LATIN _RBRAC
+                      | NAME_LATIN _LBRAC NAME_COMMAS _RBRAC
+                      | NAME _LBRAC NAME_LATIN _RBRAC
+                      | NAME_LATIN _QUOTE NAME_COMMAS _QUOTE
+                      | NAME _QUOTE NAME_LATIN _QUOTE
+                      | NAME_COMMAS _LBRAC NAME_LATIN _RBRAC
+                      | NAME_LATIN _LBRAC NAME_COMMAS _RBRAC
 
 // todo: make these all _meta_whatever later
 ?meta: _meta_unam

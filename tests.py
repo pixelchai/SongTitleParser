@@ -27,7 +27,7 @@ class TestParser(unittest.TestCase):
         self.assertParse("ヨルシカ - 思想犯（OFFICIAL VIDEO）",
                          "ヨルシカ", "思想犯")
         self.assertParse("ずっと真夜中でいいのに。『ハゼ馳せる果てるまで』MV",
-                         "ずっと真夜中でいいのに。", "ハゼ馳せる果てるまで")
+                         "ずっと真夜中でいいのに。", "ハゼ馳せる果てるまで")  # non-latin [non-latin] => not translation
         self.assertParse('"Humanoid" Music Video by Zutto Mayonaka de Ii no ni.',
                          "Zutto Mayonaka de Ii no ni.", "Humanoid")
         self.assertParse("Nice Song -- The Band feat. PixelZerg (Live at Glastonbury, 2019) 『OFFICIAL VIDEO』",
@@ -41,5 +41,9 @@ class TestParser(unittest.TestCase):
         self.assertParse("[EngSub] Asu no Yozora Shoukaihan [Yuaru]",
                          "Yuaru", "Asu no Yozora Shoukaihan")  # Name [Artist] format
 
+        # Name [translation] (and no artist) tends to be more common than Name [artist] so favour the former
+        # especially if 'name' and 'translation' are from different alphabets
+        self.assertParse("Anata no Yoru ga Akeru Made [あなたの夜が明けるまで] Lyrics",
+                         None, "Anata no Yoru ga Akeru Made")
 if __name__ == '__main__':
     unittest.main(verbosity=2)
