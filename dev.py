@@ -6,7 +6,7 @@ with open("dataset/out.json", "r") as f:
     dataset = json.load(f)
 
 results = [
-    "[EngSub] Asu no Yozora Shoukaihan [Yuaru]",
+    "[MV] BOL4, 20 Years Of Age(볼빨간사춘기, 스무살) _ We Loved(남이 될 수 있을까)",
     # "'Only One King' (feat. Jung Youth)",
     # "Pixel - The Cool Song (Official Audio)"
 ]

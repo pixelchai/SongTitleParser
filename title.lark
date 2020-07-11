@@ -32,7 +32,7 @@ standard: artist_name _SEP song_title_unam (_LBRAC _meta_unam _RBRAC)+
           | artist_name _SEP song_title _SEP_COMMA meta
           | artist_name _LBRAC song_title _RBRAC (_SEP_COMMA? meta)
           | (_LBRAC meta _RBRAC)* song_title (_LBRAC artist_name _RBRAC)
-          | (_LBRAC _meta_unam _RBRAC)* song_title _REV_SEP artist_name
+          | (_LBRAC meta _RBRAC)* song_title _REV_SEP artist_name
           | song_title
 
 _feat: ("ft" | "feat" | "featuring" ) ("." | ":")?
@@ -52,10 +52,11 @@ song_title: _name_and_translated
             | (NAME | _QUOTE NAME_COMMAS _QUOTE)
 
 // translation in brackets
-_name_and_translated: _LBRAC NAME_COMMAS _RBRAC NAME
+_name_and_translated: _LBRAC NAME_COMMAS _RBRAC NAME_COMMAS
                       | song_title_unam _LBRAC NAME_COMMAS _RBRAC
                       | NAME _LBRAC NAME_COMMAS _RBRAC
                       | NAME _QUOTE NAME_COMMAS _QUOTE
+                      | NAME_COMMAS _LBRAC NAME_COMMAS _RBRAC
 
 // todo: make these all _meta_whatever later
 ?meta: _meta_unam
