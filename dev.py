@@ -14,7 +14,9 @@ results = [
     "The Killers - Mr Brightside (Live at Glastonbury, UK 2019)",
     "The Killers - Mr Brightside (Live at Glastonbury, 2019, UK)",
     "Florence + The Machine - Times Like These - Live At Glastonbury 2015",
-    "[Eng/Indo/Lyric] Aimyon - 『She Used to Be Alive, Right?』 Ikite Itanda Yo Na 生きていたんだよな"
+    "[Eng/Indo/Lyric] Aimyon - 『She Used to Be Alive, Right?』 Ikite Itanda Yo Na 生きていたんだよな",
+    "[EN/ESP] Aimyon - 『She Used to Be Alive, Right?』 Ikite Itanda Yo Na 生きていたんだよな",
+    "猛独が襲う／初音ミク"
 ]
 
 if True:
@@ -27,6 +29,6 @@ if True:
 
 # random.shuffle(results)
 for result in results[:10]:
-    tree = parser.parse(result)
     print(result)
+    tree = parser.parse(result)
     print(tree.pretty("\t"))

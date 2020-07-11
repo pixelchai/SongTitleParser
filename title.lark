@@ -1,24 +1,31 @@
-%ignore " "
+%ignore /\s/
 // common
-NAME: /[\w ]+/
+NAME: /[\w !?]+/
+NAME_COMMAS: /[\w !?,]+/
 _LBRAC: "(" | "[" | "『" | "「" | "（"
 _RBRAC: ")" | "]" | "』" | "」" | "）"
 _COMMA: ","
 _DASH: "-"+
 _PLUS: "+"
-_SLASH: "/"
+_SLASH: "/" | "／"
 _NAME_SEP: _PLUS | _SLASH
 _SEP: _DASH
-_ANYSEP: _DASH  | _COMMA
+_REV_SEP: _SLASH
+_SEP_COMMA: _SEP  | _COMMA
 
 DATE: /\d{4}/ // year
 
-start: standard
+?start: standard
 
 standard: artist_name _SEP song_title (_LBRAC meta _RBRAC)+
-          | artist_name _SEP song_title _ANYSEP meta
+          | (_LBRAC meta _RBRAC)+ artist_name _SEP song_title
+          | artist_name _SEP song_title _SEP_COMMA meta
+          | song_title _REV_SEP artist_name
 artist_name: NAME (_NAME_SEP NAME)*
 song_title: NAME
+            // translation in brackets
+            | _LBRAC NAME_COMMAS _RBRAC NAME
+            | NAME _LBRAC NAME_COMMAS _RBRAC
 
 ?meta: meta_youtube
        | meta_live
@@ -26,8 +33,13 @@ song_title: NAME
 
 !meta_youtube: "HQ" | "HD"
 meta_live: ("live" ("in"| "at"))? _live_info
-           | _live_info _ANYSEP? "live"
+           | _live_info _SEP_COMMA? "live"
            | "live"
-_live_info: NAME (_ANYSEP NAME)? (_ANYSEP DATE)?
-            | NAME (_ANYSEP DATE)? (_ANYSEP NAME)?
-!meta_lyrics: "a"
+_live_info: NAME (_SEP_COMMA NAME)? (_SEP_COMMA DATE)?
+            | NAME (_SEP_COMMA DATE)? (_SEP_COMMA NAME)?
+
+meta_lyrics: _lyrics_info (_NAME_SEP? _lyrics_keyword)?
+_lyrics_keyword: ("lyric" | "subtitle" | "sub") "s"?
+_lyrics_info: NAME (_NAME_SEP NAME)
+
+_utattemita: "歌ってみた" | "tried to sing" | "tried singing"
