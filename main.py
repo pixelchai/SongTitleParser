@@ -22,3 +22,6 @@ def interpret_tree(tree: "lark.Tree"):
             song_title = str(tree.children[0]).strip()
 
     return artist_name, song_title
+
+def parse_simple(title):
+    return interpret_tree(parser.parse(title))
