@@ -6,7 +6,7 @@ with open("dataset/out.json", "r") as f:
     dataset = json.load(f)
 
 results = [
-    'Nice Song -- The Band feat. PixelZerg (Live at Glastonbury, 2019) 『OFFICIAL VIDEO』',
+    'The Band feat. PixelZerg -- Nice Song (Live at Glastonbury, 2019) 『OFFICIAL VIDEO』',
 ]
 
 if False:
