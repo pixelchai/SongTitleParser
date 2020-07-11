@@ -1,12 +1,12 @@
 import json
 import random
-from main import parser
+from main import parser, interpret_tree
 
 with open("dataset/out.json", "r") as f:
     dataset = json.load(f)
 
 results = [
-    '"Humanoid" Music Video by Zutto Mayonaka de Ii no ni.',
+    'The Killers - Mr Brightside ft. PixelZerg (Live at Glastonbury, UK 2019) 『OFFICIAL VIDEO』',
 ]
 
 if False:
@@ -22,6 +22,8 @@ for result in results[:100]:
     print(result)
     tree = parser.parse(result)
     print(tree.pretty("\t"))
+    print(interpret_tree(tree))
+
 
 # tree = parser.parse("ヨルシカ - 思想犯（OFFICIAL VIDEO）")
 # print(tree)

@@ -15,7 +15,7 @@ class TestParser(unittest.TestCase):
                          "The Killers", "Mr Brightside")
         self.assertParse("[Eng/Indo/Lyric] Aimyon - 『She Used to Be Alive, Right?』 Ikite Itanda Yo Na 生きていたんだよな",
                          "Aimyon", "She Used to Be Alive, Right?")
-        self.assertParse("Pixel - WowSong (woowh song) (EASY LYRICS)",
+        self.assertParse("Pixel - WowSong (CoolMovie OST) (EASY LYRICS)",
                          "Pixel", "WowSong")
         self.assertParse("猛独が襲う／初音ミク",
                          "初音ミク", "猛独が襲う")
@@ -24,7 +24,7 @@ class TestParser(unittest.TestCase):
         self.assertParse("ずっと真夜中でいいのに。『ハゼ馳せる果てるまで』MV",
                          "ずっと真夜中でいいのに。", "ハゼ馳せる果てるまで")
         self.assertParse('"Humanoid" Music Video by Zutto Mayonaka de Ii no ni.',
-                         "Humanoid", "Zutto Mayonaka de Ii no ni.")
+                         "Zutto Mayonaka de Ii no ni.", "Humanoid")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
