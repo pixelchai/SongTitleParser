@@ -1,7 +1,8 @@
 %ignore /\s/
 // common
-NAME: /[\w !?]+/
-NAME_COMMAS: /[\w !?,]+/
+_NAME_LETTER: /[ \w!?。]/
+NAME: _NAME_LETTER+
+NAME_COMMAS: (_NAME_LETTER | _COMMA)+
 _LBRAC: "(" | "[" | "『" | "「" | "（"
 _RBRAC: ")" | "]" | "』" | "」" | "）"
 _COMMA: ","
@@ -17,9 +18,11 @@ DATE: /\d{4}/ // year
 
 ?start: standard
 
-standard: artist_name _SEP song_title (_LBRAC meta _RBRAC)+
+standard: artist_name _SEP NAME (_LBRAC _meta_unam _RBRAC)+
+          |artist_name _SEP song_title (_LBRAC meta _RBRAC)+
           | (_LBRAC meta _RBRAC)+ artist_name _SEP song_title
           | artist_name _SEP song_title _SEP_COMMA meta
+          | artist_name _LBRAC song_title _RBRAC (_SEP_COMMA? meta)
           | song_title _REV_SEP artist_name
 artist_name: NAME (_NAME_SEP NAME)*
 song_title: NAME
@@ -27,10 +30,18 @@ song_title: NAME
             | _LBRAC NAME_COMMAS _RBRAC NAME
             | NAME _LBRAC NAME_COMMAS _RBRAC
 
-?meta: meta_youtube
-       | meta_live
+// todo: make these all _meta_whatever later
+?meta: _meta_unam
        | meta_lyrics
+       | meta_live
 
+// (reasonably) unambigious meta
+_meta_unam: meta_mv
+            | meta_official
+            | meta_youtube
+
+meta_mv: "music video" | "MV" | "AMV" | "Animation"
+meta_official: "official" (meta_mv | "video" | "audio")
 !meta_youtube: "HQ" | "HD"
 meta_live: ("live" ("in"| "at"))? _live_info
            | _live_info _SEP_COMMA? "live"
@@ -39,6 +50,7 @@ _live_info: NAME (_SEP_COMMA NAME)? (_SEP_COMMA DATE)?
             | NAME (_SEP_COMMA DATE)? (_SEP_COMMA NAME)?
 
 meta_lyrics: _lyrics_info (_NAME_SEP? _lyrics_keyword)?
+             | "easy"? _lyrics_keyword
 _lyrics_keyword: ("lyric" | "subtitle" | "sub") "s"?
 _lyrics_info: NAME (_NAME_SEP NAME)
 
