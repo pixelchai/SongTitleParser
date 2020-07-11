@@ -47,5 +47,6 @@ class TestParser(unittest.TestCase):
         self.assertParse("Word", None, "Word") # word on its own => song title
         self.assertParse("ayiko - Teichopsia (ft. Shoko)", "ayiko", "Teichopsia")
         self.assertParse("Beverly -- 尊い MUSIC VIDEO [cover]", "Beverly", "尊い")  # <Artist> - <name> <meta_unam> special case
+        self.assertParse("Songname. / Mafumafu 【Sang it】", "Mafumafu", "Songname.")  # rev_sep with meta
 if __name__ == '__main__':
     unittest.main(verbosity=2)

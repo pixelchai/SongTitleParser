@@ -7,8 +7,8 @@ NAME_LATIN: (_NAME_LETTER_LATIN | ".")+
 NAME_LATIN_COMMAS: (_NAME_LETTER_LATIN | "." | _COMMA | "'")+  // NB: also allow apostrophes here (hacky)
 NAME_NO_DOT: _NAME_LETTER+
 NAME_COMMAS: (_NAME_LETTER | "." | _COMMA)+
-_LBRAC: "(" | "[" | "『" | "「" | "（" | "【"
-_RBRAC: ")" | "]" | "』" | "」" | "）" | "】"
+_LBRAC: "(" | "[" | "『" | "「" | "（" | "【" | "［"
+_RBRAC: ")" | "]" | "』" | "」" | "）" | "】" | "］"
 _QUOTE: "\"" | "'"
 _COMMA: "," | "、"
 _DASH: ("-" | "_" | "_" | "—" )+
@@ -33,6 +33,7 @@ standard: artist_name _SEP song_title_pre_meta_unam _meta_unam (_LBRAC _meta_una
           | song_title artist_ft ((_LBRAC meta _RBRAC)* | _SEP_COMMA meta)?
           | artist_name _SEP song_title (_LBRAC meta _RBRAC)*
           | (_LBRAC meta _RBRAC)+ artist_name _SEP song_title
+          | song_title _REV_SEP artist_name (_LBRAC meta _RBRAC)+
           | artist_name _SEP song_title _SEP_COMMA meta
           | song_title ((_LBRAC meta _RBRAC)* | meta)
           | artist_name _LBRAC song_title _RBRAC (_SEP_COMMA? meta)
@@ -78,6 +79,9 @@ _name_and_translated: _LBRAC NAME_COMMAS _RBRAC NAME_COMMAS
 ?meta: _meta_unam
        | meta_lyrics
        | meta_live
+       | meta_unknown
+
+meta_unknown: NAME_COMMAS (_SEP NAME_COMMAS)*
 
 // (reasonably) unambigious meta
 _meta_unam: meta_mv
@@ -106,4 +110,4 @@ meta_lyrics: _lyrics_info (_NAME_SEP? _lyrics_keyword)?
 _lyrics_keyword: ("lyric" | "subtitle" | "sub") "s"?
 _lyrics_info: NAME (_NAME_SEP NAME)
 
-_utattemita: "歌ってみた" | "tried to sing" | "tried singing"
+_utattemita: "歌ってみた" | "tried to sing" | "tried singing" | "sang it"
