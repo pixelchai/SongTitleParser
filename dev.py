@@ -6,7 +6,7 @@ with open("dataset/out.json", "r") as f:
     dataset = json.load(f)
 
 results = [
-    "[cover]優しい人_yama",
+    "[EngSub] Asu no Yozora Shoukaihan [Yuaru]",
     # "'Only One King' (feat. Jung Youth)",
     # "Pixel - The Cool Song (Official Audio)"
 ]

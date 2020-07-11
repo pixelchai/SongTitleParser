@@ -38,6 +38,8 @@ class TestParser(unittest.TestCase):
                          "Jung Youth", "Only One King")
         self.assertParse("[cover]優しい人_yama",
                          "優しい人", "yama")  # special underscore, meta_unam prefix
+        self.assertParse("[EngSub] Asu no Yozora Shoukaihan [Yuaru]",
+                         "Yuaru", "Asu no Yozora Shoukaihan")  # Name [Artist] format
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

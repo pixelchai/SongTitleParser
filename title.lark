@@ -4,8 +4,8 @@ _NAME_LETTER: /[\s!?。]|[^\W_]/  // match any character in the first class OR (
 NAME: (_NAME_LETTER | ".")+
 NAME_NO_DOT: _NAME_LETTER+
 NAME_COMMAS: (_NAME_LETTER | "." | _COMMA)+
-_LBRAC: "(" | "[" | "『" | "「" | "（"
-_RBRAC: ")" | "]" | "』" | "」" | "）"
+_LBRAC: "(" | "[" | "『" | "「" | "（" | "【"
+_RBRAC: ")" | "]" | "』" | "」" | "）" | "】"
 _QUOTE: "\"" | "'"
 _COMMA: ","
 _DASH: ("-" | "_" | "_")+
@@ -31,7 +31,8 @@ standard: artist_name _SEP song_title_unam (_LBRAC _meta_unam _RBRAC)+
           | (_LBRAC meta _RBRAC)+ artist_name _SEP song_title
           | artist_name _SEP song_title _SEP_COMMA meta
           | artist_name _LBRAC song_title _RBRAC (_SEP_COMMA? meta)
-          | song_title _REV_SEP artist_name
+          | (_LBRAC meta _RBRAC)* song_title (_LBRAC artist_name _RBRAC)
+          | (_LBRAC _meta_unam _RBRAC)* song_title _REV_SEP artist_name
           | song_title
 
 _feat: ("ft" | "feat" | "featuring" ) ("." | ":")?
