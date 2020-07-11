@@ -35,3 +35,6 @@ for result in results[:100]:
     print(result)
     tree = parser.parse(result)
     print(tree.pretty("\t"))
+
+tree = parser.parse("ヨルシカ - 思想犯（OFFICIAL VIDEO）")
+print(tree)
