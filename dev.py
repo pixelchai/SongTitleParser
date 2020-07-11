@@ -6,10 +6,7 @@ with open("dataset/out.json", "r") as f:
     dataset = json.load(f)
 
 results = [
-    "Anata no Yoru ga Akeru Made [あなたの夜が明けるまで] Lyrics",
-    "ずっと真夜中でいいのに。『ハゼ馳せる果てるまで』MV",
-'"Humanoid" Music Video by Zutto Mayonaka de Ii no ni.',
-    # "Pixel - The Cool Song (Official Audio)"
+    "A Super Nice Japanese Song — A Song i Sent For You [君へ送る唄]  Lyrics English",
 ]
 
 if False:
