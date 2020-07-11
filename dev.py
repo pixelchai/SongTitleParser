@@ -6,8 +6,9 @@ with open("dataset/out.json", "r") as f:
     dataset = json.load(f)
 
 results = [
-"ずっと真夜中でいいのに。『ハゼ馳せる果てるまで』MV",
-    "Beverly _ 尊い MUSIC VIDEO "
+    "ずっと真夜中でいいのに。『ハゼ馳せる果てるまで』MV",
+"'Only One King' (feat. Jung Youth) _ Produced by Tommee Profitt",
+    "Beverly -- 尊い MUSIC VIDEO [cover]",
     # "Beverly _ 尊い MUSIC VIDEO 【作詞・作曲  - 岡崎体育】(3rd Album「INFINITY」収録)"
 ]
 

@@ -26,7 +26,8 @@ DATE: /\d{4}/ // year
 
 relaxed: _QUOTE song_title_unam _QUOTE (meta_official | meta_mv)? "by" artist_name
 
-standard: artist_name _SEP song_title_unam (_LBRAC _meta_unam _RBRAC)+
+standard: artist_name _SEP song_title_pre_meta_unam _meta_unam (_LBRAC _meta_unam _RBRAC)* // simple special case
+          | artist_name _SEP song_title_unam (_LBRAC _meta_unam _RBRAC)+
           | (_LBRAC _meta_unam _RBRAC)+ artist_name _SEP song_title
           | song_title (_SEP | _REV_SEP) artist_name_ft (_LBRAC meta _RBRAC)*
           | song_title artist_ft ((_LBRAC meta _RBRAC)* | _SEP_COMMA meta)?
@@ -57,8 +58,10 @@ song_title_unam: _song_title_unam
 _song_title_unam_latin: NAME_LATIN | _QUOTE NAME_COMMAS _QUOTE
 song_title_unam_latin: _song_title_unam_latin
 
+song_title_pre_meta_unam: /([\s!?。・]|[^\W_])+(?=music video|mv|amv|animation|official|HQ|HD|cover)/
+
 song_title: _name_and_translated
-            | (NAME | _QUOTE NAME_COMMAS _QUOTE)
+            | _song_title_unam
 
 // translation in brackets
 _name_and_translated: _LBRAC NAME_COMMAS _RBRAC NAME_COMMAS
