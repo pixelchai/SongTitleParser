@@ -12,6 +12,7 @@ def interpret_tree(tree: "lark.Tree"):
             # if artist_name_ft inside artist_name, artist_name will be overwritten (because topdown)
             artist_name = "/".join([str(x).strip() for x in tree.children])
         if tree.data.startswith("song_title"):
+            # only return first child of song_title because parsing is experimental
             song_title = str(tree.children[0]).strip()
 
     return artist_name, song_title

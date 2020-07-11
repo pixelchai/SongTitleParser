@@ -6,7 +6,8 @@ with open("dataset/out.json", "r") as f:
     dataset = json.load(f)
 
 results = [
-    'The Band feat. PixelZerg -- Nice Song (Live at Glastonbury, 2019) 『OFFICIAL VIDEO』',
+    # "'Only One King' (feat. Jung Youth) _ Produced by Tommee Profitt",
+    "'Only One King' (feat. Jung Youth)",
 ]
 
 if False:

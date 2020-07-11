@@ -3,8 +3,13 @@ from main import parser, interpret_tree
 
 class TestParser(unittest.TestCase):
     def assertParse(self, raw_title, artist, title):
-        self.assertTupleEqual(interpret_tree(parser.parse(raw_title)),
-                              (artist, title))
+        artist_out, title_out = interpret_tree(parser.parse(raw_title))
+
+        if artist is not None:
+            self.assertEqual(artist, artist_out)
+
+        if title is not None:
+            self.assertEqual(title, title_out)
 
     def test_examples(self):
         self.assertParse("Pixel - The Cool Song (Official Audio)",
