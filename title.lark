@@ -1,12 +1,33 @@
+%ignore " "
+// common
+NAME: /[\w ]+/
+_LBRAC: "(" | "[" | "『" | "「" | "（"
+_RBRAC: ")" | "]" | "』" | "」" | "）"
+_COMMA: ","
+_DASH: "-"+
+_PLUS: "+"
+_SLASH: "/"
+_NAME_SEP: _PLUS | _SLASH
+_SEP: _DASH
+_ANYSEP: _DASH  | _COMMA
+
+DATE: /\d{4}/ // year
+
 start: standard
 
-standard: artist_name "-" song_title bracketeds
-NAME: ("a".."z" | "A".."Z" | "0".."9" | " ")+
-artist_name: NAME
+standard: artist_name _SEP song_title (_LBRAC meta _RBRAC)+
+          | artist_name _SEP song_title _ANYSEP meta
+artist_name: NAME (_NAME_SEP NAME)*
 song_title: NAME
-bracketeds: bracketed+
-bracketed: "(" bracketed_inner ")"
-!bracketed_inner: "HQ"
 
-%import common.WORD   // imports from terminal library
-%ignore " "           // Disregard spaces in text
+?meta: meta_youtube
+       | meta_live
+       | meta_lyrics
+
+!meta_youtube: "HQ" | "HD"
+meta_live: ("live" ("in"| "at"))? _live_info
+           | _live_info _ANYSEP? "live"
+           | "live"
+_live_info: NAME (_ANYSEP NAME)? (_ANYSEP DATE)?
+            | NAME (_ANYSEP DATE)? (_ANYSEP NAME)?
+!meta_lyrics: "a"
