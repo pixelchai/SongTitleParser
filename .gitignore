@@ -4,4 +4,4 @@
 __pycache__/
 embeddings/
 
-dataset/out.json
+#dataset/out.json

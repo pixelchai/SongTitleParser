@@ -3,7 +3,7 @@ import unicodedata
 
 def char_embed(char: str):
     """
-    Number from 0-16 representing class
+    Number from 0-16 (inclusive) representing class
     """
     ret = 0
     # space
@@ -50,23 +50,22 @@ def char_embed(char: str):
 
     return ret
 
-with open("dataset/out.json", "r") as f:
-    dataset = json.load(f)
-
-results = [
-]
-
-for key, song in dataset.items():
-    for result in song.get("results", []):
-        try:
-            results.append(result["title"])
-        except KeyError:
-            pass
-
-for result in results:
-    for char in result:
-        embed = char_embed(char)
-        if embed is None:
-            print(char)
-
-print(char_embed(u"​"))
+# with open("dataset/out.json", "r") as f:
+#     dataset = json.load(f)
+#
+# results = [
+# ]
+#
+# for key, song in dataset.items():
+#     for result in song.get("results", []):
+#         try:
+#             results.append(result["title"])
+#         except KeyError:
+#             pass
+#
+# for result in results:
+#     for char in result:
+#         embed = char_embed(char)
+#         if embed is None:
+#             print(char)
+#
