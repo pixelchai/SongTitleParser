@@ -2,5 +2,6 @@
 /venv/
 **/.fuse_hidden*
 __pycache__/
+embeddings/
 
 dataset/out.json
